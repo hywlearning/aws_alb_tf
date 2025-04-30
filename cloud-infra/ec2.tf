@@ -1,6 +1,6 @@
 resource "aws_s3_bucket" "s3_alb" {
   bucket = "${var.prj_name}-s3"
-
+ force_destroy = true
   tags = {
     Name        = "${var.prj_name}-s3"
     Environment = var.prj_environment

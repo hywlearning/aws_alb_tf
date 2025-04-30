@@ -5,7 +5,7 @@ resource "aws_lb" "alb-blue-green" {
   security_groups    = [aws_security_group.alb-sg[0].id]
   subnets            = [for subnet in aws_subnet.public : subnet.id]
 
-  enable_deletion_protection = true
+  enable_deletion_protection = false
 
     tags = merge(
         { Name = "${var.prj_name}_alb" },
@@ -28,7 +28,6 @@ resource "aws_lb_target_group" "alb-tg-blue-http" {
     { Name = "${var.prj_name}_blue_alb_http" },
     var.common_tags
   )
-
 }
 
 
@@ -80,6 +79,8 @@ resource "aws_lb_target_group_attachment" "blue-ec2" {
   target_group_arn = aws_lb_target_group.alb-tg-blue-http.arn
   target_id        = aws_instance.blue-ec2[count.index].id
   port             = 80
+
+  depends_on = [ aws_instance.blue-ec2 ]
 }
 
 resource "aws_lb_target_group_attachment" "blue-ec2-https" {
@@ -87,6 +88,8 @@ resource "aws_lb_target_group_attachment" "blue-ec2-https" {
   target_group_arn = aws_lb_target_group.alb-tg-blue-https.arn
   target_id        = aws_instance.blue-ec2[count.index].id
   port             = 443
+
+  depends_on = [ aws_instance.blue-ec2 ]
 }
 
 #green
@@ -124,6 +127,8 @@ resource "aws_lb_target_group_attachment" "green-ec2" {
   target_group_arn = aws_lb_target_group.alb-tg-green-http.arn
   target_id        = aws_instance.green-ec2[count.index].id
   port             = 80
+
+  depends_on = [ aws_instance.green-ec2 ]
 }
 
 
