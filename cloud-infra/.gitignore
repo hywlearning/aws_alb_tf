@@ -1,0 +1,3 @@
+cnfp-sg-key.pem
+.terraform/
+.terraform.lock.hcl
