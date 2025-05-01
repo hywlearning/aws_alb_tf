@@ -11,8 +11,6 @@ resource "aws_lb" "alb-blue-green" {
         { Name = "${var.prj_name}_alb" },
         var.common_tags
     )
-
-    depends_on = [ aws_s3_bucket.s3_alb,aws_s3_bucket_policy.alb_logging_policy ]
  
 }
 

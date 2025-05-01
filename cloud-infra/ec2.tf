@@ -33,7 +33,7 @@ resource "aws_instance" "blue-ec2" {
   key_name = var.hellobag_keypair
   vpc_security_group_ids = [aws_security_group.private-alb-sg[0].id]
   associate_public_ip_address = false
-  user_data = file("templates/webserver.sh")
+  user_data = file(var.webserver_setup[count.index])
   
   root_block_device {
     delete_on_termination = true  # Delete when instance terminates

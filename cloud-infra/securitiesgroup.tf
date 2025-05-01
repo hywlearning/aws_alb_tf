@@ -58,7 +58,7 @@ resource "aws_security_group" "sg-jumphost" {
 
 }
 
-# Security Group for Kubernetes Cluster (private instances)
+# EC2 Security Group
 resource "aws_security_group" "private-alb-sg" {
   count = var.ec2_create && var.vpc_create ? 1 : 0 
   name   = "EC2 network security group"
@@ -77,6 +77,19 @@ resource "aws_security_group" "private-alb-sg" {
     self = true
   }
 
+  ingress {
+    from_port       = 80
+    to_port         = 80
+    protocol        = "TCP"
+    security_groups    = [aws_security_group.alb-sg[0].id]
+  }
+
+  ingress {
+    from_port       = 443
+    to_port         = 443
+    protocol        = "TCP"
+    security_groups     =[aws_security_group.alb-sg[0].id]
+  }
   # Allow all outbound traffic
   egress {
     from_port   = 0
@@ -85,4 +98,5 @@ resource "aws_security_group" "private-alb-sg" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
+  depends_on = [ aws_security_group.alb-sg, ]
 }

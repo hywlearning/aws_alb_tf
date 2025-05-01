@@ -24,7 +24,7 @@ sudo systemctl restart apache2
 # Create a self-signed SSL certificate
 #skip first
 # Create a simple index.html page
-echo "<html><body><h1>This is web server 1</h1></body></html>" | sudo tee /var/www/html/index.html
+echo "<html><body><h1>This is web server 2</h1></body></html>" | sudo tee /var/www/html/index.html
 
 
 #check command

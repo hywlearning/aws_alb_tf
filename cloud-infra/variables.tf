@@ -79,20 +79,9 @@ variable "vpc_cidr_block"{
     default = "10.0.0.0/16"
 }
 
-
-variable "public_subnet_tags" {
-type = map(string)
-default = {
-    "kubernetes.io/role/elb"  = 1
-    "kubernetes.io/cluster/kubernetes"	= "owned"
-}
-description = "Tags to apply to all private subnets for lb discovery"
-}
-
-variable "private_subnet_tags" {
-type = map(string)
-default = {
-    "kubernetes.io/role/internal_elb"  = 1
-}
+#just want to see the result
+variable "webserver_setup"{
+    type = list(string)
+    default = ["templates/webserver.sh","templates/webserver2.sh"]
 }
 
